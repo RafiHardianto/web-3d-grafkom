@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Model 3D - web-simple-model-Kel5</title>
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+    }
+
+    canvas {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+
+    h1 {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(50, 50, 50, 0.7));
+        color: white;
+        padding: 16px 32px; /* lebih besar dari sebelumnya */
+        border-radius: 12px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 36px; /* sebelumnya 28px */
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2.5px;
+        box-shadow: 0px 6px 25px rgba(255, 204, 0, 0.5);
+        border: 2px solid rgba(255, 204, 0, 0.9);
+        transition: all 0.3s ease-in-out;
+        z-index: 10;
+    }
+
+
+    h1:hover {
+        transform: translateX(-50%) scale(1.1);
+        background: linear-gradient(135deg, rgba(255, 204, 0, 0.7), rgba(255, 255, 255, 0.2));
+        color: black;
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0px 6px 30px rgba(255, 255, 255, 0.7);
+    }
+
+  </style>
+</head>
+<body>
+  <h1>Model 3D - Kelompok 5</h1>
+  <canvas id="renderCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById("renderCanvas");
+    const engine = new BABYLON.Engine(canvas, true);
+
+    const createScene = function () {
+      const scene = new BABYLON.Scene(engine);
+      scene.clearColor = new BABYLON.Color4(0.1, 0.1, 0.1, 1); // Warna latar belakang redup
+      
+
+      // Kamera
+      const camera = new BABYLON.ArcRotateCamera("camera", Math.PI, Math.PI / 2.2, 6, BABYLON.Vector3.Zero(), scene);
+      camera.attachControl(canvas, true);
+      camera.lowerRadiusLimit = 3;
+      camera.upperRadiusLimit = 10;
+      camera.panningSensibility = 50;
+
+    // Hemispheric light (pencahayaan lembut dari atas)
+      const hemiLight = new BABYLON.HemisphericLight("hemiLight", new BABYLON.Vector3(0, 1, 0), scene);
+      hemiLight.intensity = 0.5;
+
+    // Directional Light (cahaya seperti matahari dari satu arah)
+    const dirLight = new BABYLON.DirectionalLight("dirLight", new BABYLON.Vector3(-1, -2, -1), scene);
+    dirLight.position = new BABYLON.Vector3(5, 10, 5); // Posisi sumber cahaya
+    dirLight.intensity = 1.4; // Kecerahan cahaya
+    dirLight.diffuse = new BABYLON.Color3(1, 1, 1);    // Warna putih terang
+    dirLight.specular = new BABYLON.Color3(1, 1, 1);   // Kilau pada permukaan
+
+
+      // Alas
+      const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 10, height: 10 }, scene);
+      const groundMaterial = new BABYLON.StandardMaterial("groundMat", scene);
+      groundMaterial.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+      groundMaterial.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2); // Refleksi ringan
+      ground.material = groundMaterial;
+      ground.receiveShadows = true;
+      ground.position.y = -0.05; // Sedikit di bawah objek
+
+      // Load model
+      BABYLON.SceneLoader.ImportMesh("", "models/", "scene.gltf", scene, function (meshes) {
+        meshes.forEach(mesh => {
+          mesh.scaling = new BABYLON.Vector3(1.4, 1.4, 1.4);
+          mesh.position = new BABYLON.Vector3(0, 0, 0); // Di atas alas
+          mesh.receiveShadows = true;
+          mesh.castShadows = true;
+          shadowGenerator.addShadowCaster(mesh);
+        });
+      });
+
+      return scene;
+    };
+
+    const scene = createScene();
+    engine.runRenderLoop(() => scene.render());
+    window.addEventListener("resize", () => engine.resize());
+  </script>
+</body>
+</html>
