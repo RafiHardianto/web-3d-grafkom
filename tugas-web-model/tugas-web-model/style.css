@@ -1,0 +1,137 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1e1e2f, #2e2e3f);
+    color: #fff;
+}
+
+canvas {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+}
+
+/* Title Header */
+h1 {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);  /* Slightly stronger blur */
+    color: #ffcc00;
+    padding: 18px 36px;  /* Larger padding for better spacing */
+    border-radius: 18px;  /* Larger border radius for more rounded corners */
+    font-size: 32px;  /* Increased font size for better readability */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.6);  /* Deeper shadow for more emphasis */
+    border: 1.5px solid rgba(255, 204, 0, 0.8);  /* Slightly brighter border */
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+h1:hover {
+    transform: translateX(-50%) scale(1.05);  /* Slight zoom on hover for interactivity */
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8);  /* Increase shadow on hover */
+}
+
+/* Loading Box */
+#loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 16px 32px;  /* Larger padding for better readability */
+    font-size: 22px;  /* Slightly larger text for emphasis */
+    font-weight: 500;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
+    z-index: 10;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+#loading:hover {
+    transform: translate(-50%, -50%) scale(1.05);  /* Slight scale on hover */
+}
+
+/* Canvas */
+#renderCanvas {
+    width: 100%;
+    height: 100vh;
+    display: block;
+}
+
+/* Optional: Action Button */
+button {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(145deg, #ffd700, #ffcc00);
+    color: #1e1e1e;
+    font-size: 20px;  /* Larger text for better visibility */
+    padding: 18px 40px;  /* Larger padding for a more prominent button */
+    border: none;
+    border-radius: 12px;  /* Rounded button edges */
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(255, 204, 0, 0.4);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+button:hover {
+    transform: translateX(-50%) scale(1.1);  /* More noticeable hover effect */
+    background: linear-gradient(145deg, #f1c40f, #f39c12);
+}
+
+button:active {
+    transform: translateX(-50%) scale(0.98);  /* Slight scale down on click for feedback */
+}
+
+/* Fade Animation */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translate(-50%, -60%); }
+    100% { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 24px;  /* Smaller title font for mobile */
+        padding: 12px 24px;
+    }
+    button {
+        font-size: 16px;  /* Smaller button text for mobile */
+        padding: 14px 28px;
+    }
+    #loading {
+        font-size: 18px;  /* Smaller loading text on mobile */
+        padding: 12px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 20px;  /* Adjust title size for very small screens */
+        padding: 10px 20px;
+    }
+    button {
+        font-size: 14px;  /* Adjust button text for very small screens */
+        padding: 12px 24px;
+    }
+    #loading {
+        font-size: 16px;  /* Adjust loading text for very small screens */
+        padding: 10px 20px;
+    }
+}
